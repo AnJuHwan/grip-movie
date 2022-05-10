@@ -1,7 +1,9 @@
 @use '../../styles/constants/colors';
+@use '../../styles/mixins/flexbox';
 
 .contents {
   flex: 1;
+  @include flexbox.flexbox(center, center);
 
   .movieTask {
     display: flex;
@@ -12,13 +14,19 @@
       margin-top: 10px;
     }
 
-    .posterBox {
+    .movieBox {
+      display: flex;
       flex: 1;
-      height: 100px;
 
-      .poster {
-        width: 100%;
-        height: 100%;
+      .posterBox {
+        display: flex;
+        flex: 1;
+        height: 100px;
+
+        .poster {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
 

@@ -1,38 +1,46 @@
+import { useResetRecoilState, useSetRecoilState } from 'recoil'
 import { SearchIcon } from 'assets'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { getMovieData } from 'services/movie'
+import { movieState } from 'store/movie'
 import { IMovie } from 'types/movie'
 import styles from './Header.module.scss'
 
 const Header = () => {
-  const [movieList, setMovieList] = useState<IMovie | []>([])
+  const setMovieList = useSetRecoilState<[] | IMovie[]>(movieState)
+  const resetState = useResetRecoilState(movieState)
   const [searchMovieTitle, setSearchMovieTitle] = useState<string>('')
 
-  const movieData = useCallback(async () => {
-    const params = {
+  const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchMovieTitle(e.currentTarget.value)
+  }
+
+  const searchClickHandler = async (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const movieListData = await getMovieData({
       s: searchMovieTitle,
       page: 1,
+    })
+    const movie: IMovie[] | [] = movieListData.Search
+
+    if (String(movieListData.Response) === 'False') {
+      resetState()
+      return
     }
-    const movieListData = await getMovieData(params)
-    console.log(movieListData)
-  }, [searchMovieTitle])
 
-  useEffect(() => {
-    movieData()
-  }, [movieData])
-
-  const searchChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
-    
+    setMovieList(movie)
   }
 
   return (
     <header className={styles.header}>
       <SearchIcon className={styles.icon} />
 
-      <input type='text' className={styles.input} />
-      <button type='submit' className={styles.search}>
-        검색
-      </button>
+      <form>
+        <input type='text' className={styles.input} onChange={searchChangeHandler} />
+        <button type='submit' className={styles.search} onClick={searchClickHandler}>
+          검색
+        </button>
+      </form>
     </header>
   )
 }
