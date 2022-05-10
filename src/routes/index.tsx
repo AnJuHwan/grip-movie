@@ -1,13 +1,19 @@
-import FavoriteMovie from 'pages/Movies/FavoriteMovie'
-import Home from 'pages/Movies/Home'
+import FavoriteMovie from 'pages/Favorite/FavoriteMovie'
+import Home from 'pages/Home/Home'
 import { Route, Routes } from 'react-router-dom'
+import styles from './Routes.module.scss'
+import Mobile from './shared/Mobile'
 
 const RootRoute = () => {
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/favorite' element={<FavoriteMovie />} />
-    </Routes>
+    <div className={styles.app}>
+      <Mobile>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/favorite' element={<FavoriteMovie />} />
+        </Routes>
+      </Mobile>
+    </div>
   )
 }
 

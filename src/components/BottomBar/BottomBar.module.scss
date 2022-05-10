@@ -1,0 +1,31 @@
+@use '../../styles/constants/colors';
+@use '../../styles/mixins/flexbox';
+
+.bottomBar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  padding: 10px;
+  background-color: colors.$GRAY6;
+  border-top: 1px solid colors.$WHITE;
+
+  .tab {
+    flex: 1;
+    @include flexbox.flexbox(center, center);
+    color: colors.$BLACK;
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 5px;
+    }
+
+    .active {
+      color: colors.$WHITE;
+    }
+  }
+
+  .active {
+    color: colors.$WHITE;
+  }
+}

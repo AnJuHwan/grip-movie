@@ -1,0 +1,32 @@
+@use '../../styles/constants/colors';
+@use '../../styles/mixins/flexbox';
+
+.header {
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: colors.$GRAY6;
+  border-bottom: 1px solid colors.$WHITE;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  @include flexbox.flexbox(between, center);
+
+  .icon {
+    height: 100%;
+  }
+
+  .input {
+    padding: 10px;
+    background-color: colors.$GRAYE;
+    border: 1px solid colors.$GRAYA;
+    border-radius: 4px;
+  }
+
+  .search {
+    padding: 10px;
+    background-color: colors.$WHITE;
+    border: 1px solid colors.$GRAYA;
+    border-radius: 4px;
+  }
+}

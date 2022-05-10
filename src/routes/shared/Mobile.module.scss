@@ -1,0 +1,11 @@
+@use '../../styles/constants/colors';
+@use '../../styles/mixins/flexbox';
+
+.mobile {
+  position: relative;
+  width: 360px;
+  height: 720px;
+  overflow: auto;
+  background: colors.$GRAY5E;
+  border-radius: 15px;
+}
