@@ -15,7 +15,7 @@ const BottomBar = () => {
   }
 
   return (
-    <div className={styles.bottomBar}>
+    <footer className={styles.bottomBar}>
       <button
         type='button'
         name='/'
@@ -35,7 +35,7 @@ const BottomBar = () => {
         <StarIcon className={styles.icon} />
         <span>즐겨찾기</span>
       </button>
-    </div>
+    </footer>
   )
 }
 

@@ -3,6 +3,8 @@
 
 .mobile {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 360px;
   height: 720px;
   overflow: auto;

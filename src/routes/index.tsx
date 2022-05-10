@@ -1,5 +1,6 @@
 import FavoriteMovie from 'pages/Favorite/FavoriteMovie'
 import Home from 'pages/Home/Home'
+
 import { Route, Routes } from 'react-router-dom'
 import styles from './Routes.module.scss'
 import Mobile from './shared/Mobile'
