@@ -10,7 +10,6 @@ const Header = () => {
   const setMovieList = useSetRecoilState<[] | IMovie[]>(movieState)
   const [searchMovieTitle, setSearchMovieTitle] = useRecoilState<string>(movieInputState)
   const movieListResetState = useResetRecoilState(movieState)
-  const inputResetState = useResetRecoilState(movieInputState)
 
   const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchMovieTitle(e.currentTarget.value)
@@ -31,7 +30,6 @@ const Header = () => {
     }
 
     setMovieList(movie)
-    inputResetState()
   }
 
   return (

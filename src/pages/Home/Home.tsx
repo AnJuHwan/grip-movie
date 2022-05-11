@@ -1,37 +1,42 @@
 import MovieItem from 'components/Movies/MovieItem'
-import { useCallback, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { moviePageState, movieState } from 'store/movie'
+import { getMovieData } from 'services/movie'
+import { movieInputState, movieState } from 'store/movie'
 import styles from './Home.module.scss'
 
 const Home = () => {
-  const movie = useRecoilValue(movieState)
-  const targetRef = useRef<HTMLDivElement>(null)
-  const [page, setPage] = useRecoilState(moviePageState)
+  const [movie, setMovie] = useRecoilState(movieState)
+  const aRef = useRef<HTMLDivElement>(null)
+  const [page, setPage] = useState(1)
+  const inputValue = useRecoilValue(movieInputState)
 
-  // console.log(targetRef)
-
-  const intersection = useCallback(() => {
-    const options = {
-      root: targetRef.current,
-      threshold: 1,
+  const getMovie = async (pageNum: number) => {
+    const movies = await getMovieData({ s: inputValue, page: pageNum })
+    if (movies.Search && String(movies.Response) !== 'False') {
+      setMovie((prev) => [...prev, ...movies.Search])
     }
-    const observers = new IntersectionObserver((entries, observer) => {
-      console.log(entries, observer)
-      setPage((prev) => prev + 1)
-    }, options)
-
-    // console.log(targetRef.current)
-    // console.log(observer)
-
-    if (targetRef.current) {
-      observers.observe(targetRef.current)
-    }
-  }, [setPage])
+  }
 
   useEffect(() => {
-    intersection()
-  }, [intersection])
+    getMovie(page)
+  }, [page])
+
+  const moreMovie = () => {
+    setPage((prev) => prev + 1)
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        moreMovie()
+      }
+    })
+    if (aRef.current) {
+      observer.observe(aRef.current)
+    }
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <main className={styles.contents}>
@@ -42,9 +47,10 @@ const Home = () => {
           {movie.map((item) => (
             <MovieItem key={item.imdbID} item={item} />
           ))}
-          <div ref={targetRef}>11</div>
         </ul>
       )}
+
+      <div ref={aRef} />
     </main>
   )
 }
