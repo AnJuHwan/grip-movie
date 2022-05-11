@@ -3,40 +3,9 @@
 
 .contents {
   flex: 1;
-  @include flexbox.flexbox(center, center);
+  @include flexbox.flexbox(center, start);
 
-  .movieTask {
-    display: flex;
-    padding: 10px;
-    background-color: colors.$GRAYA;
-
-    + .movieTask {
-      margin-top: 10px;
-    }
-
-    .movieBox {
-      display: flex;
-      flex: 1;
-
-      .posterBox {
-        display: flex;
-        flex: 1;
-        height: 100px;
-
-        .poster {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-
-    .detailBox {
-      flex: 1;
-      padding: 5px;
-
-      p {
-        margin-bottom: 8px;
-      }
-    }
+  .taskBox {
+    width: 100%;
   }
 }

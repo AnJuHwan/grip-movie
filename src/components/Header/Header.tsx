@@ -1,17 +1,16 @@
-import { useResetRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
 import { SearchIcon } from 'assets'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent } from 'react'
 import { getMovieData } from 'services/movie'
-import { movieState } from 'store/movie'
+import { movieInputState, movieState } from 'store/movie'
 import { IMovie } from 'types/movie'
 import styles from './Header.module.scss'
 
 const Header = () => {
   const setMovieList = useSetRecoilState<[] | IMovie[]>(movieState)
-  const resetState = useResetRecoilState(movieState)
-  const [searchMovieTitle, setSearchMovieTitle] = useState<string>('')
-
-  
+  const [searchMovieTitle, setSearchMovieTitle] = useRecoilState<string>(movieInputState)
+  const movieListResetState = useResetRecoilState(movieState)
+  const inputResetState = useResetRecoilState(movieInputState)
 
   const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchMovieTitle(e.currentTarget.value)
@@ -27,11 +26,12 @@ const Header = () => {
 
     // 나중에 바꿀것
     if (String(movieListData.Response) === 'False') {
-      resetState()
+      movieListResetState()
       return
     }
 
     setMovieList(movie)
+    inputResetState()
   }
 
   return (
@@ -39,7 +39,7 @@ const Header = () => {
       <SearchIcon className={styles.icon} />
 
       <form>
-        <input type='text' className={styles.input} onChange={searchChangeHandler} />
+        <input type='text' className={styles.input} onChange={searchChangeHandler} value={searchMovieTitle} />
         <button type='submit' className={styles.search} onClick={searchClickHandler}>
           검색
         </button>

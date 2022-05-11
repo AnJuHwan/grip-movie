@@ -10,3 +10,8 @@ export const moviePageState = atom<number>({
   key: 'moviePageState',
   default: 1,
 })
+
+export const movieInputState = atom<string>({
+  key : 'movieInputState',
+  default:''
+})
