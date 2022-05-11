@@ -1,0 +1,56 @@
+@use '../../styles/constants/colors';
+@use '../../styles/mixins/flexbox';
+@use '../../styles/mixins/position';
+
+.modalBackground {
+  @include flexbox.flexbox(center, center);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba($color: colors.$BLACK, $alpha: 70%);
+
+  .modalContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include position.relative(0);
+    width: 360px;
+    height: 200px;
+    background-color: colors.$WHITE;
+    border-radius: 15px;
+
+    .detailBox {
+      @include flexbox.flexbox(center, center);
+      flex-direction: column;
+      height: 100%;
+
+      p {
+        width: 80%;
+        margin-bottom: 5px;
+        text-align: center;
+      }
+    }
+
+    .selectContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      border-top: 1px solid black;
+
+      button {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+      }
+
+      button:hover {
+        background-color: antiquewhite;
+      }
+    }
+  }
+}

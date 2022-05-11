@@ -3,6 +3,7 @@
 
 .movieTask {
   display: flex;
+  height: 200px;
   padding: 10px;
   background-color: colors.$GRAYA;
 
@@ -13,11 +14,13 @@
   .movieBox {
     display: flex;
     flex: 1;
+    align-items: center;
+    justify-content: center;
 
     .posterBox {
       display: flex;
       flex: 1;
-      height: 100px;
+      height: 100%;
 
       .poster {
         width: 100%;

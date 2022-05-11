@@ -11,6 +11,8 @@ const Header = () => {
   const resetState = useResetRecoilState(movieState)
   const [searchMovieTitle, setSearchMovieTitle] = useState<string>('')
 
+  
+
   const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchMovieTitle(e.currentTarget.value)
   }
@@ -23,6 +25,7 @@ const Header = () => {
     })
     const movie: IMovie[] | [] = movieListData.Search
 
+    // 나중에 바꿀것
     if (String(movieListData.Response) === 'False') {
       resetState()
       return

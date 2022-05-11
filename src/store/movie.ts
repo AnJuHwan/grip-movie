@@ -5,3 +5,8 @@ export const movieState = atom<IMovie[] | []>({
   key: 'movieListState',
   default: [],
 })
+
+export const moviePageState = atom<number>({
+  key: 'moviePageState',
+  default: 1,
+})

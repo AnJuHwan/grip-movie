@@ -1,4 +1,5 @@
-import React from 'react'
+import Modal from 'components/Modal/Modal'
+import React, { useState } from 'react'
 import { IMovie } from 'types/movie'
 import styles from './MovieItem.module.scss'
 
@@ -7,9 +8,19 @@ interface IProps {
 }
 
 const MovieItem: React.FC<IProps> = ({ item }) => {
+  const [favoriteModal, setFavoriteModal] = useState<boolean>(false)
+
+  const closeModalHandler = () => {
+    setFavoriteModal(false)
+  }
+
+  const openModalHandler = () => {
+    setFavoriteModal(true)
+  }
+
   return (
     <li className={styles.movieTask}>
-      <button type='submit' className={styles.movieBox} onClick={() => console.log('click')}>
+      <button type='submit' className={styles.movieBox} onClick={openModalHandler}>
         <div className={styles.posterBox}>
           <img className={styles.poster} src={item.Poster} alt='포스터가 없습니다.' />
         </div>
@@ -19,6 +30,7 @@ const MovieItem: React.FC<IProps> = ({ item }) => {
           <p>타입: {item.Type}</p>
         </div>
       </button>
+      <Modal show={favoriteModal} close={closeModalHandler} title={item.Title} year={item.Year} type={item.Type} />
     </li>
   )
 }

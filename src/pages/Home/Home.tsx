@@ -1,4 +1,6 @@
+import Modal from 'components/Modal/Modal'
 import MovieItem from 'components/Movies/MovieItem'
+import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { movieState } from 'store/movie'
 import styles from './Home.module.scss'
