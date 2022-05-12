@@ -1,35 +1,24 @@
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
 import { SearchIcon } from 'assets'
-import { ChangeEvent, FormEvent } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { useRecoilState } from 'recoil'
 import { getMovieData } from 'services/movie'
-import { movieInputState, movieState } from 'store/movie'
-import { IMovie } from 'types/movie'
+import { movieInputState, moviePageState, movieState } from 'store/movie'
 import styles from './Header.module.scss'
 
 const Header = () => {
-  const setMovieList = useSetRecoilState<[] | IMovie[]>(movieState)
-  const [searchMovieTitle, setSearchMovieTitle] = useRecoilState<string>(movieInputState)
-  const movieListResetState = useResetRecoilState(movieState)
-
-  const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchMovieTitle(e.currentTarget.value)
-  }
+  const [movies, setMovies] = useRecoilState(movieState)
+  const [page, setPage] = useRecoilState(moviePageState)
+  const [movieInputValue, setMovieInputValue] = useRecoilState<string>(movieInputState)
 
   const searchClickHandler = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const movieListData = await getMovieData({
-      s: searchMovieTitle,
-      page: 1,
-    })
-    const movie: IMovie[] | [] = movieListData.Search
+    setPage(1)
+    const moviesData = await getMovieData({ s: movieInputValue, page: 1 })
+    setMovies(moviesData.Search)
+  }
 
-    // 나중에 바꿀것
-    if (String(movieListData.Response) === 'False') {
-      movieListResetState()
-      return
-    }
-
-    setMovieList(movie)
+  const inputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setMovieInputValue(e.currentTarget.value)
   }
 
   return (
@@ -37,7 +26,7 @@ const Header = () => {
       <SearchIcon className={styles.icon} />
 
       <form>
-        <input type='text' className={styles.input} onChange={searchChangeHandler} value={searchMovieTitle} />
+        <input type='text' className={styles.input} onChange={inputValueChange} />
         <button type='submit' className={styles.search} onClick={searchClickHandler}>
           검색
         </button>

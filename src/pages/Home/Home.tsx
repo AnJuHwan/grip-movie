@@ -1,42 +1,45 @@
-import MovieItem from 'components/Movies/MovieItem'
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { getMovieData } from 'services/movie'
-import { movieInputState, movieState } from 'store/movie'
+import { movieInputState, moviePageState, movieState } from 'store/movie'
+import MovieItem from 'components/Movies/MovieItem'
 import styles from './Home.module.scss'
+import { getMovieData } from 'services/movie'
 
 const Home = () => {
   const [movie, setMovie] = useRecoilState(movieState)
-  const aRef = useRef<HTMLDivElement>(null)
-  const [page, setPage] = useState(1)
   const inputValue = useRecoilValue(movieInputState)
+  const [page, setPage] = useRecoilState(moviePageState)
+  const targetRef = useRef<HTMLDivElement>(null)
 
-  const getMovie = async (pageNum: number) => {
-    const movies = await getMovieData({ s: inputValue, page: pageNum })
-    if (movies.Search && String(movies.Response) !== 'False') {
-      setMovie((prev) => [...prev, ...movies.Search])
-    }
-  }
+  
 
   useEffect(() => {
-    getMovie(page)
-  }, [page])
-
-  const moreMovie = () => {
-    setPage((prev) => prev + 1)
-  }
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
+    if (!targetRef.current) return
+    const observer = new IntersectionObserver(async (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting) {
-        moreMovie()
+        // if (page <= 1) {
+        //   return
+        // }
+        setPage((prev) => prev + 1)
       }
     })
-    if (aRef.current) {
-      observer.observe(aRef.current)
-    }
+    observer.observe(targetRef.current)
+
+    // eslint-disable-next-line consistent-return
     return () => observer.disconnect()
-  }, [])
+  }, [movie])
+
+  useEffect(() => {
+    const apiCall = async () => {
+      if (page > 1) {
+        const movies = await getMovieData({ s: inputValue, page })
+        if (String(movies.Response) === 'True' && movies.Search) {
+          setMovie([...movie, ...movies.Search])
+        }
+      }
+    }
+    apiCall()
+  }, [page])
 
   return (
     <main className={styles.contents}>
@@ -49,8 +52,7 @@ const Home = () => {
           ))}
         </ul>
       )}
-
-      <div ref={aRef} />
+      {movie.length !== 0 && <div ref={targetRef}>aa</div>}
     </main>
   )
 }
