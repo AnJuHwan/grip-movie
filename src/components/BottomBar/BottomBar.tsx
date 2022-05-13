@@ -1,12 +1,13 @@
 import { SearchIcon, StarIcon } from 'assets'
 import React, { FormEvent, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styles from './BottomBar.module.scss'
 import cx from 'classnames'
 
 const BottomBar = () => {
   const navigate = useNavigate()
-  const [tab, setTab] = useState<string>('/')
+  const location = useLocation()
+  const [tab, setTab] = useState<string>(location.pathname)
 
   const tabClickHandler = (e: FormEvent<HTMLButtonElement>) => {
     const { name } = e.currentTarget

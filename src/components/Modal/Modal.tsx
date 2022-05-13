@@ -7,20 +7,29 @@ interface IProps {
   show: boolean
   close: () => void
   item: IMovie
+  isFavorite: number
 }
 
-const Modal: React.FC<IProps> = ({ show, close, item }) => {
+const Modal: React.FC<IProps> = ({ show, close, item, isFavorite }) => {
   const element = document.getElementById('modal') as HTMLElement
-  const localFavoriteItem = localStorage.getItem('movies')
+  const localFavorite = localStorage.getItem('movies')
+  const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
+
+  let favoriteList: IMovie[] = []
 
   const favoriteSetMovie = (movie: IMovie) => {
-    let favoriteList = []
-    favoriteList = localFavoriteItem ? JSON.parse(localFavoriteItem) : []
+    favoriteList = localFavoritemList
     favoriteList.push(movie)
     localStorage.setItem('movies', JSON.stringify(favoriteList))
 
     close()
   }
+
+  const favoriteRemoveMovie = () => {
+    console.log('hello')
+  }
+
+  console.log(isFavorite)
 
   return ReactDOM.createPortal(
     <div>
@@ -33,8 +42,11 @@ const Modal: React.FC<IProps> = ({ show, close, item }) => {
               <p>타입: {item.Type}</p>
             </div>
             <div className={styles.selectContainer}>
-              <button type='button' onClick={() => favoriteSetMovie(item)}>
-                즐겨찾기
+              <button
+                type='button'
+                onClick={() => (isFavorite === -1 ? favoriteSetMovie(item) : favoriteRemoveMovie())}
+              >
+                {isFavorite === -1 ? '즐겨찾기' : '해제'}
               </button>
               <button type='button' onClick={close}>
                 취소

@@ -8,7 +8,10 @@ interface IProps {
 }
 
 const FavoriteItem: React.FC<IProps> = ({ item }) => {
+  const localFavorite = localStorage.getItem('movies')
+  const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
   const [favoriteModal, setFavoriteModal] = useState<boolean>(false)
+  const isFavorite = localFavoritemList.findIndex((movieItem: any) => movieItem.imdbID === item.imdbID)
 
   const closeModalHandler = () => {
     setFavoriteModal(false)
@@ -27,9 +30,10 @@ const FavoriteItem: React.FC<IProps> = ({ item }) => {
           <p>제목: {item.Title}</p>
           <p>연도: {item.Year}</p>
           <p>타입: {item.Type}</p>
+          {isFavorite !== -1 && <p>즐겨찾기 됨</p>}
         </div>
       </button>
-      <Modal show={favoriteModal} close={closeModalHandler} item={item} />
+      <Modal isFavorite={isFavorite} show={favoriteModal} close={closeModalHandler} item={item} />
     </li>
   )
 }
