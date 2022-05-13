@@ -14,7 +14,11 @@ const Header = () => {
     e.preventDefault()
     setPage(1)
     const moviesData = await getMovieData({ s: movieInputValue, page: 1 })
-    setMovies(moviesData.Search)
+    if (String(moviesData.Response) === 'True' && moviesData.Search) {
+      setMovies(moviesData.Search)
+      return
+    }
+    setMovies([])
   }
 
   const inputValueChange = (e: ChangeEvent<HTMLInputElement>) => {

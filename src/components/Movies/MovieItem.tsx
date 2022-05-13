@@ -30,7 +30,7 @@ const MovieItem: React.FC<IProps> = ({ item }) => {
           <p>타입: {item.Type}</p>
         </div>
       </button>
-      <Modal show={favoriteModal} close={closeModalHandler} title={item.Title} year={item.Year} type={item.Type} />
+      <Modal show={favoriteModal} close={closeModalHandler} item={item} />
     </li>
   )
 }

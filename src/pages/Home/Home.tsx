@@ -11,10 +11,7 @@ const Home = () => {
   const [page, setPage] = useRecoilState(moviePageState)
   const targetRef = useRef<HTMLDivElement>(null)
 
-  
-
   useEffect(() => {
-    if (!targetRef.current) return
     const observer = new IntersectionObserver(async (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting) {
         // if (page <= 1) {
@@ -23,14 +20,15 @@ const Home = () => {
         setPage((prev) => prev + 1)
       }
     })
-    observer.observe(targetRef.current)
+    if (targetRef.current) {
+      observer.observe(targetRef.current)
+    }
 
-    // eslint-disable-next-line consistent-return
     return () => observer.disconnect()
-  }, [movie])
+  }, [movie, setPage])
 
   useEffect(() => {
-    const apiCall = async () => {
+    const getMovies = async () => {
       if (page > 1) {
         const movies = await getMovieData({ s: inputValue, page })
         if (String(movies.Response) === 'True' && movies.Search) {
@@ -38,7 +36,7 @@ const Home = () => {
         }
       }
     }
-    apiCall()
+    getMovies()
   }, [page])
 
   return (
