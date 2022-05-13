@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { movieInputState, moviePageState, movieState } from 'store/movie'
 import MovieItem from 'components/Movies/MovieItem'

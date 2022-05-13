@@ -1,6 +1,6 @@
 import { SearchIcon, StarIcon } from 'assets'
-import React, { FormEvent, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './BottomBar.module.scss'
 import cx from 'classnames'
 

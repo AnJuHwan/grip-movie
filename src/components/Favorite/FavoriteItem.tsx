@@ -11,7 +11,7 @@ const FavoriteItem: React.FC<IProps> = ({ item }) => {
   const localFavorite = localStorage.getItem('movies')
   const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
   const [favoriteModal, setFavoriteModal] = useState<boolean>(false)
-  const isFavorite = localFavoritemList.findIndex((movieItem: any) => movieItem.imdbID === item.imdbID)
+  const isFavorite = localFavoritemList.findIndex((movieItem: IMovie) => movieItem.imdbID === item.imdbID)
 
   const closeModalHandler = () => {
     setFavoriteModal(false)
@@ -20,6 +20,7 @@ const FavoriteItem: React.FC<IProps> = ({ item }) => {
   const openModalHandler = () => {
     setFavoriteModal(true)
   }
+
   return (
     <li className={styles.movieTask}>
       <button type='submit' className={styles.movieBox} onClick={openModalHandler}>

@@ -1,13 +1,13 @@
 import { SearchIcon } from 'assets'
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { ChangeEvent, FormEvent } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { getMovieData } from 'services/movie'
 import { movieInputState, moviePageState, movieState } from 'store/movie'
 import styles from './Header.module.scss'
 
 const Header = () => {
-  const [movies, setMovies] = useRecoilState(movieState)
-  const [page, setPage] = useRecoilState(moviePageState)
+  const setMovies = useSetRecoilState(movieState)
+  const setPage = useSetRecoilState(moviePageState)
   const [movieInputValue, setMovieInputValue] = useRecoilState<string>(movieInputState)
 
   const searchClickHandler = async (e: FormEvent<HTMLButtonElement>) => {

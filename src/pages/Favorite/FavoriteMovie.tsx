@@ -1,11 +1,13 @@
 import FavoriteItem from 'components/Favorite/FavoriteItem'
-import React from 'react'
+import { useRecoilValue } from 'recoil'
+import { movieFavoriteState } from 'store/movie'
 import { IMovie } from 'types/movie'
 import styles from './Favorite.module.scss'
 
 const FavoriteMovie = () => {
   const localFavoriteItem = localStorage.getItem('movies')
   const transFormJsonItem: IMovie[] | null = localFavoriteItem && JSON.parse(localFavoriteItem)
+  const favoriteList = useRecoilValue(movieFavoriteState)
 
   return (
     <div className={styles.contents}>

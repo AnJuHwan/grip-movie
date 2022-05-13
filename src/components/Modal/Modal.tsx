@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { useSetRecoilState } from 'recoil'
+import { movieFavoriteState } from 'store/movie'
 import { IMovie } from 'types/movie'
 import styles from './Modal.module.scss'
 
@@ -14,11 +16,12 @@ const Modal: React.FC<IProps> = ({ show, close, item, isFavorite }) => {
   const element = document.getElementById('modal') as HTMLElement
   const localFavorite = localStorage.getItem('movies')
   const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
+  const setFavoriteList = useSetRecoilState(movieFavoriteState)
 
   let favoriteList: IMovie[] = []
+  favoriteList = localFavoritemList
 
   const favoriteSetMovie = (movie: IMovie) => {
-    favoriteList = localFavoritemList
     favoriteList.push(movie)
     localStorage.setItem('movies', JSON.stringify(favoriteList))
 
@@ -26,10 +29,13 @@ const Modal: React.FC<IProps> = ({ show, close, item, isFavorite }) => {
   }
 
   const favoriteRemoveMovie = () => {
-    console.log('hello')
+    if (isFavorite > -1) {
+      const filter = favoriteList.filter((movie) => movie.imdbID !== item.imdbID)
+      localStorage.setItem('movies', JSON.stringify(filter))
+      setFavoriteList(filter)
+    }
+    close()
   }
-
-  console.log(isFavorite)
 
   return ReactDOM.createPortal(
     <div>

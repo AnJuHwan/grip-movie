@@ -1,7 +1,5 @@
 import Modal from 'components/Modal/Modal'
 import React, { useState } from 'react'
-import { useRecoilValue } from 'recoil'
-import { movieState } from 'store/movie'
 import { IMovie } from 'types/movie'
 import styles from './MovieItem.module.scss'
 
@@ -13,7 +11,7 @@ const MovieItem: React.FC<IProps> = ({ item }) => {
   const localFavorite = localStorage.getItem('movies')
   const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
   const [favoriteModal, setFavoriteModal] = useState<boolean>(false)
-  const isFavorite = localFavoritemList.findIndex((movieItem: any) => movieItem.imdbID === item.imdbID)
+  const isFavorite = localFavoritemList.findIndex((movieItem: IMovie) => movieItem.imdbID === item.imdbID)
 
   const closeModalHandler = () => {
     setFavoriteModal(false)
