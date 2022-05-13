@@ -1,29 +1,25 @@
-import Modal from 'components/Modal/Modal'
-import React, { useState } from 'react'
+import React from 'react'
 import { IMovie } from 'types/movie'
 import styles from './Favorite.module.scss'
 
 interface IProps {
   item: IMovie
+  setClickId: (id: string) => void
+  openModal: () => void
+  localFavoritemList: IMovie[] | []
 }
 
-const FavoriteItem: React.FC<IProps> = ({ item }) => {
-  const localFavorite = localStorage.getItem('movies')
-  const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
-  const [favoriteModal, setFavoriteModal] = useState<boolean>(false)
+const FavoriteItem: React.FC<IProps> = ({ item, setClickId, openModal, localFavoritemList }) => {
   const isFavorite = localFavoritemList.findIndex((movieItem: IMovie) => movieItem.imdbID === item.imdbID)
 
-  const closeModalHandler = () => {
-    setFavoriteModal(false)
-  }
-
-  const openModalHandler = () => {
-    setFavoriteModal(true)
+  const openModalHandler = (id: string) => {
+    openModal()
+    setClickId(id)
   }
 
   return (
     <li className={styles.movieTask}>
-      <button type='submit' className={styles.movieBox} onClick={openModalHandler}>
+      <button type='submit' className={styles.movieBox} onClick={() => openModalHandler(item.imdbID)}>
         <div className={styles.posterBox}>
           <img className={styles.poster} src={item.Poster} alt='포스터가 없습니다.' />
         </div>
@@ -34,7 +30,6 @@ const FavoriteItem: React.FC<IProps> = ({ item }) => {
           {isFavorite !== -1 && <p>즐겨찾기 됨</p>}
         </div>
       </button>
-      <Modal isFavorite={isFavorite} show={favoriteModal} close={closeModalHandler} item={item} />
     </li>
   )
 }

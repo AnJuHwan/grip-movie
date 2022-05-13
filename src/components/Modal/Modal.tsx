@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { useSetRecoilState } from 'recoil'
 import { movieFavoriteState } from 'store/movie'
@@ -20,6 +20,10 @@ const Modal: React.FC<IProps> = ({ show, close, item, isFavorite }) => {
 
   let favoriteList: IMovie[] = []
   favoriteList = localFavoritemList
+
+  useEffect(() => {
+    setFavoriteList(favoriteList)
+  }, [])
 
   const favoriteSetMovie = (movie: IMovie) => {
     favoriteList.push(movie)
