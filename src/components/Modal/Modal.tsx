@@ -10,23 +10,17 @@ interface IProps {
 }
 
 const Modal: React.FC<IProps> = ({ show, close, item }) => {
-  // const localFavoriteItem = localStorage.getItem('movies')
   const element = document.getElementById('modal') as HTMLElement
-  // const transFormJsonItem: IMovie[] | null = localFavoriteItem ? [JSON.parse(localFavoriteItem)] : null
-  // console.log(transFormJsonItem)
+  const localFavoriteItem = localStorage.getItem('movies')
 
-  const favoriteSetMovie = (movie: IMovie) => {}
-  //   if (!transFormJsonItem) {
-  //     localStorage.setItem('movies', JSON.stringify(movie))
-  //     return
-  //   }
+  const favoriteSetMovie = (movie: IMovie) => {
+    let favoriteList = []
+    favoriteList = localFavoriteItem ? JSON.parse(localFavoriteItem) : []
+    favoriteList.push(movie)
+    localStorage.setItem('movies', JSON.stringify(favoriteList))
 
-  // const favoriteArr = transFormJsonItem.map((movieItem) => movieItem)
-  //   console.log(favoriteArr)
-  //   // favoriteArr.push(movie)
-  //   // localStorage.setItem('movies', JSON.stringify(favoriteArr.push(movie)))
-
-  //   close()
+    close()
+  }
 
   return ReactDOM.createPortal(
     <div>

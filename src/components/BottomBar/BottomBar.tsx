@@ -12,7 +12,7 @@ const BottomBar = () => {
     const { name } = e.currentTarget
     setTab(name)
     navigate(name)
-    if(tab === '/favorite'){
+    if (tab === '/favorite') {
       window.location.reload()
     }
   }
