@@ -5,6 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { getMovieData } from 'services/movie'
 import { currentLocationPage, movieInputState, moviePageState, movieState } from 'store/movie'
 import styles from './Header.module.scss'
+import _ from 'lodash'
 
 const Header = () => {
   const setMovies = useSetRecoilState(movieState) // 검색한 영화 리스트 저장
@@ -22,7 +23,7 @@ const Header = () => {
     if (String(moviesData.Response) === 'True' && moviesData.Search) {
       navigate('/')
       setLocation('/')
-      setMovies(moviesData.Search)
+      setMovies(_.uniqWith(moviesData.Search, _.isEqual))
       return
     }
     setMovies([])

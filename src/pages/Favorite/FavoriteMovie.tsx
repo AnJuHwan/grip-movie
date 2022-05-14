@@ -26,6 +26,7 @@ const FavoriteMovie = () => {
   return (
     <div className={styles.contents}>
       <ul className={styles.taskBox}>
+        <h2 className={styles.headerText}>내 즐겨찾기</h2>
         {favoriteList &&
           favoriteList.map((movie) => (
             <FavoriteItem

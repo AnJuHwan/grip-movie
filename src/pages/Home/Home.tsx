@@ -6,6 +6,7 @@ import styles from './Home.module.scss'
 import { getMovieData } from 'services/movie'
 import Modal from 'components/Modal/Modal'
 import { IMovie } from 'types/movie'
+import _ from 'lodash'
 
 const Home = () => {
   const [movie, setMovie] = useRecoilState(movieState) // 검색을 눌렀을 때 영화 리스트
@@ -46,10 +47,11 @@ const Home = () => {
 
   useEffect(() => {
     const getMovies = async () => {
+      // console.log(currentPage)
       if (page > 1) {
         const movies = await getMovieData({ s: inputValue, page })
         if (String(movies.Response) === 'True' && movies.Search) {
-          setMovie([...movie, ...movies.Search])
+          setMovie(_.uniqWith([...movie, ...movies.Search], _.isEqual))
         }
       }
     }
