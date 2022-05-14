@@ -1,29 +1,36 @@
 import { SearchIcon, StarIcon } from 'assets'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './BottomBar.module.scss'
 import cx from 'classnames'
+import { useRecoilState } from 'recoil'
+import { currentLocationPage } from 'store/movie'
 
 const BottomBar = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [tab, setTab] = useState<string>(location.pathname)
+
+  const [currentPage, setCurrentPage] = useRecoilState<string>(currentLocationPage)
 
   const tabClickHandler = (e: FormEvent<HTMLButtonElement>) => {
     const { name } = e.currentTarget
-    setTab(name)
+    setCurrentPage(name)
     navigate(name)
-    if (tab === '/favorite') {
+    if (currentPage === '/favorite') {
       window.location.reload()
     }
   }
+
+  useEffect(() => {
+    setCurrentPage(location.pathname)
+  }, [location.pathname, setCurrentPage])
 
   return (
     <footer className={styles.bottomBar}>
       <button
         type='button'
         name='/'
-        className={cx(styles.tab, { [styles.active]: tab === '/' })}
+        className={cx(styles.tab, { [styles.active]: currentPage === '/' })}
         onClick={tabClickHandler}
       >
         <SearchIcon className={styles.icon} />
@@ -33,7 +40,7 @@ const BottomBar = () => {
       <button
         type='button'
         name='/favorite'
-        className={cx(styles.tab, { [styles.active]: tab === '/favorite' })}
+        className={cx(styles.tab, { [styles.active]: currentPage === '/favorite' })}
         onClick={tabClickHandler}
       >
         <StarIcon className={styles.icon} />

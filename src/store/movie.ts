@@ -20,3 +20,8 @@ export const movieFavoriteState = atom<IMovie[] | []>({
   key: 'movieFavoriteState',
   default: [],
 })
+
+export const currentLocationPage = atom<string>({
+  key: 'currentLocationPage',
+  default: '/',
+})
