@@ -1,6 +1,6 @@
+import React from 'react'
 import BottomBar from 'components/BottomBar/BottomBar'
 import Header from 'components/Header/Header'
-import React from 'react'
 import styles from './Mobile.module.scss'
 
 interface IProps {

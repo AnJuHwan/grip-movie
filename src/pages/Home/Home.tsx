@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { movieInputState, moviePageState, movieState } from 'store/movie'
-import MovieItem from 'components/Movies/MovieItem'
-import styles from './Home.module.scss'
-import { getMovieData } from 'services/movie'
-import Modal from 'components/Modal/Modal'
-import { IMovie } from 'types/movie'
 import _ from 'lodash'
+import { movieInputState, moviePageState, movieState, totalResultsPage } from 'store/movie'
+import MovieItem from 'components/Movies/MovieItem'
+import Modal from 'components/Modal/Modal'
+import { getMovieData } from 'services/movie'
+import { IMovie } from 'types/movie'
+import styles from './Home.module.scss'
 
 const Home = () => {
   const [movie, setMovie] = useRecoilState(movieState) // 검색을 눌렀을 때 영화 리스트
   const inputValue = useRecoilValue(movieInputState)
   const [page, setPage] = useRecoilState(moviePageState) // 현재 페이지
+  const resultPage = useRecoilValue(totalResultsPage)
 
   const targetRef = useRef<HTMLDivElement>(null)
 
@@ -47,7 +48,6 @@ const Home = () => {
 
   useEffect(() => {
     const getMovies = async () => {
-      // console.log(currentPage)
       if (page > 1) {
         const movies = await getMovieData({ s: inputValue, page })
         if (String(movies.Response) === 'True' && movies.Search) {
@@ -76,6 +76,7 @@ const Home = () => {
         </ul>
       )}
       {movie.length !== 0 && <div ref={targetRef} />}
+      {resultPage >= page && <div>Loading...</div>}
       <Modal item={movieDetail[0]} close={closeModalHandler} show={favoriteModal} isFavorite={isFavorite} />
     </main>
   )

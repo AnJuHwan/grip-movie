@@ -1,10 +1,10 @@
-import { SearchIcon, StarIcon } from 'assets'
 import { FormEvent, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import styles from './BottomBar.module.scss'
 import cx from 'classnames'
 import { useRecoilState } from 'recoil'
 import { currentLocationPage } from 'store/movie'
+import { SearchIcon, StarIcon } from 'assets'
+import styles from './BottomBar.module.scss'
 
 const BottomBar = () => {
   const navigate = useNavigate()

@@ -3,8 +3,8 @@
 
 .contents {
   flex: 1;
-  @include flexbox.flexbox(start, center);
   flex-direction: column;
+  @include flexbox.flexbox(start, center);
 
   .taskBox {
     width: 100%;

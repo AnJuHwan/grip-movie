@@ -25,3 +25,8 @@ export const currentLocationPage = atom<string>({
   key: 'currentLocationPage',
   default: '/',
 })
+
+export const totalResultsPage = atom<number>({
+  key: 'totalResultsPage',
+  default: 0,
+})
