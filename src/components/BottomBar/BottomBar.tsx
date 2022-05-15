@@ -16,9 +16,6 @@ const BottomBar = () => {
     const { name } = e.currentTarget
     setCurrentPage(name)
     navigate(name)
-    // if (currentPage === '/favorite') {
-    //   window.location.reload()
-    // }
   }
 
   useEffect(() => {
