@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { useSetRecoilState } from 'recoil'
 import { movieFavoriteState } from 'store/movie'
@@ -15,16 +15,16 @@ interface IProps {
 const Modal: React.FC<IProps> = ({ show, close, item, isFavorite }) => {
   const element = document.getElementById('modal') as HTMLElement
   const localFavorite = localStorage.getItem('movies')
-  const localFavoritemList = localFavorite ? JSON.parse(localFavorite) : []
+  const localFavoritemList: IMovie[] | [] = localFavorite ? JSON.parse(localFavorite) : []
   const setFavoriteList = useSetRecoilState(movieFavoriteState)
 
-  let favoriteList: IMovie[] = useMemo(() => [], [])
-
+  let favoriteList: IMovie[] = []
   favoriteList = localFavoritemList
 
   useEffect(() => {
     setFavoriteList(favoriteList)
-  }, [favoriteList, setFavoriteList])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setFavoriteList])
 
   const favoriteSetMovie = (movie: IMovie) => {
     favoriteList.push(movie)
